@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Order, MenuItem } from "./dashboard";
+import { Order, MenuItem } from "../components/Dashboard";
 
 type AnalyticsProps = {
   orders: Order[];

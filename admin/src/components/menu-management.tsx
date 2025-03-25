@@ -4,7 +4,7 @@ import type React from "react"
 
 import { useState } from "react"
 import { motion } from "framer-motion"
-import type { MenuItem } from "./dashboard"
+import type { MenuItem } from "./Dashboard"
 
 type MenuManagementProps = {
   menuItems: MenuItem[]

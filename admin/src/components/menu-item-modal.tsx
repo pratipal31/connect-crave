@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { MenuItem } from "./dashboard";
+import { MenuItem } from "./Dashboard";
 
 type MenuItemModalProps = {
   onClose: () => void;

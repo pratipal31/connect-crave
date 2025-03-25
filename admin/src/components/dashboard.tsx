@@ -2,14 +2,14 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import Sidebar from "./sidebar";
-import DashboardOverview from "./dashboard-overview";
-import OrderManagement from "./order-management";
-import MenuManagement from "./menu-management";
-import Analytics from "./analytics";
-import Settings from "./settings";
-import { ThemeToggle } from "./theme-toggle";
-import { MenuItemModal } from "./menu-item-modal";
+import Sidebar from "./Sidebar";
+import DashboardOverview from "./Dashboard-overview";
+import OrderManagement from "./Order-management";
+import MenuManagement from "./Menu-management";
+import Analytics from "./Analytics";
+import Settings from "./Settings";
+import { ThemeToggle } from "./Theme-toggle";
+import { MenuItemModal } from "./Menu-item-modal";
 
 export type MenuItem = {
   id: string;

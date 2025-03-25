@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { Order } from "./dashboard";
+import { Order } from "./Dashboard";
 
 type DashboardOverviewProps = {
   orders: Order[];

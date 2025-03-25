@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { motion } from "framer-motion"
-import type { Order } from "./dashboard"
+import type { Order } from "./Dashboard"
 
 type OrderManagementProps = {
   orders: Order[]
