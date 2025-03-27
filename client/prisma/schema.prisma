@@ -1,0 +1,69 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Restaurant {
+  id          String      @id @default(cuid())
+  name        String
+  description String
+  image       String?
+  rating      Float       @default(0)
+  tags        String[] // e.g., "new", "popular"
+  cuisine     String
+  address     String
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  menuItems   MenuItem[]
+  orderItems  OrderItem[]
+}
+
+model MenuItem {
+  id           String     @id @default(cuid())
+  name         String
+  description  String
+  price        Float
+  image        String?
+  category     String
+  isAvailable  Boolean    @default(true)
+  restaurantId String
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}
+
+model Order {
+  id          String      @id @default(cuid())
+  status      OrderStatus @default(PENDING)
+  totalAmount Float
+  orderItems  OrderItem[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model OrderItem {
+  id           String     @id @default(cuid())
+  name         String
+  price        Float
+  quantity     Int
+  orderId      String
+  order        Order      @relation(fields: [orderId], references: [id])
+  restaurantId String
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PREPARING
+  READY
+  DELIVERED
+  CANCELLED
+}
