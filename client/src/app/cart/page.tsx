@@ -1,11 +1,13 @@
 "use client";
 
-import { useCart } from "@/app/context/cart-context";
+import { useCart } from "@/components/cart/cart-provider";
 import { Trash2, Plus, Minus } from "lucide-react";
 
 export default function CartPage() {
-  const { cart, removeFromCart, updateQuantity, totalPrice, totalItems } =
-    useCart();
+  const { cart, removeFromCart, updateQuantity, totalPrice } = useCart();
+
+  // Calculate total items
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <div className="container mx-auto p-6">
@@ -17,7 +19,7 @@ export default function CartPage() {
           <div className="md:col-span-2">
             {cart.map((item) => (
               <div
-                key={item.menuItemId}
+                key={item.id} // Changed from menuItemId to id based on your CartItem type
                 className="flex items-center justify-between bg-white shadow rounded-lg p-4 mb-4"
               >
                 <div>
@@ -26,8 +28,8 @@ export default function CartPage() {
                 </div>
                 <div className="flex items-center space-x-4">
                   <button
-                    onClick={() =>
-                      updateQuantity(item.menuItemId, item.quantity - 1)
+                    onClick={
+                      () => updateQuantity(item.id, item.quantity - 1) // Changed from menuItemId to id
                     }
                     disabled={item.quantity <= 1}
                     className="bg-gray-200 p-2 rounded-full disabled:opacity-50"
@@ -36,15 +38,15 @@ export default function CartPage() {
                   </button>
                   <span>{item.quantity}</span>
                   <button
-                    onClick={() =>
-                      updateQuantity(item.menuItemId, item.quantity + 1)
+                    onClick={
+                      () => updateQuantity(item.id, item.quantity + 1) // Changed from menuItemId to id
                     }
                     className="bg-gray-200 p-2 rounded-full"
                   >
                     <Plus size={16} />
                   </button>
                   <button
-                    onClick={() => removeFromCart(item.menuItemId)}
+                    onClick={() => removeFromCart(item.id)} // Changed from menuItemId to id
                     className="text-red-500 hover:bg-red-100 p-2 rounded-full"
                   >
                     <Trash2 size={16} />

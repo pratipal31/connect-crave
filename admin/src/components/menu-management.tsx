@@ -1,46 +1,61 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import { motion } from "framer-motion"
-import type { MenuItem } from "./Dashboard"
+import { useState } from "react";
+import Image from "next/image";
+import { motion } from "framer-motion";
+import type { MenuItem } from "./dashboard";
 
 type MenuManagementProps = {
-  menuItems: MenuItem[]
-  setMenuItems: React.Dispatch<React.SetStateAction<MenuItem[]>>
-  openAddItemModal: () => void
-}
+  menuItems: MenuItem[];
+  setMenuItems: React.Dispatch<React.SetStateAction<MenuItem[]>>;
+  openAddItemModal: () => void;
+};
 
-const MenuManagement = ({ menuItems, setMenuItems, openAddItemModal }: MenuManagementProps) => {
-  const [searchTerm, setSearchTerm] = useState("")
-  const [categoryFilter, setCategoryFilter] = useState("All")
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
-  const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null)
+const MenuManagement = ({
+  menuItems,
+  setMenuItems,
+  openAddItemModal,
+}: MenuManagementProps) => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("All");
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
 
   // Get unique categories
-  const categories = ["All", ...new Set(menuItems.map((item) => item.category))]
+  const categories = [
+    "All",
+    ...new Set(menuItems.map((item) => item.category)),
+  ];
 
   // Filter menu items based on search term and category
   const filteredItems = menuItems.filter((item) => {
-    const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesCategory = categoryFilter === "All" || item.category === categoryFilter
-    return matchesSearch && matchesCategory
-  })
+    const matchesSearch = item.name
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+    const matchesCategory =
+      categoryFilter === "All" || item.category === categoryFilter;
+    return matchesSearch && matchesCategory;
+  });
 
   const toggleItemAvailability = (id: string) => {
-    setMenuItems(menuItems.map((item) => (item.id === id ? { ...item, available: !item.available } : item)))
+    setMenuItems(
+      menuItems.map((item) =>
+        item.id === id ? { ...item, available: !item.available } : item
+      )
+    );
     if (selectedItem && selectedItem.id === id) {
-      setSelectedItem({ ...selectedItem, available: !selectedItem.available })
+      setSelectedItem({ ...selectedItem, available: !selectedItem.available });
     }
-  }
+  };
 
   const deleteItem = (id: string) => {
-    setMenuItems(menuItems.filter((item) => item.id !== id))
+    setMenuItems(menuItems.filter((item) => item.id !== id));
     if (selectedItem && selectedItem.id === id) {
-      setSelectedItem(null)
+      setSelectedItem(null);
     }
-  }
+  };
 
   return (
     <div className="space-y-6">
@@ -73,7 +88,10 @@ const MenuManagement = ({ menuItems, setMenuItems, openAddItemModal }: MenuManag
             />
           </div>
           <div>
-            <label htmlFor="category" className="block text-sm font-medium mb-1">
+            <label
+              htmlFor="category"
+              className="block text-sm font-medium mb-1"
+            >
               Category
             </label>
             <select
@@ -127,26 +145,38 @@ const MenuManagement = ({ menuItems, setMenuItems, openAddItemModal }: MenuManag
               animate={{ opacity: 1 }}
               transition={{ duration: 0.3 }}
               className={`bg-white dark:bg-gray-800 rounded-lg shadow border ${
-                item.available ? "border-gray-200 dark:border-gray-700" : "border-red-300 dark:border-red-700"
+                item.available
+                  ? "border-gray-200 dark:border-gray-700"
+                  : "border-red-300 dark:border-red-700"
               } overflow-hidden`}
             >
-              <div className="relative h-48 bg-gray-200 dark:bg-gray-700">
-                <img src={item.image || "/placeholder.svg"} alt={item.name} className="w-full h-full object-cover" />
-                <div className="absolute top-2 right-2">
-                  <span
-                    className={`px-2 py-1 text-xs rounded-full ${
-                      item.available
-                        ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
-                        : "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
-                    }`}
-                  >
-                    {item.available ? "Available" : "Unavailable"}
-                  </span>
-                </div>
+              <Image
+                src={item.image || "/placeholder.svg"}
+                alt={item.name}
+                layout="fill"
+                objectFit="cover"
+              />
+              <Image
+                src={item.image || "/placeholder.svg"}
+                alt={item.name}
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute top-2 right-2">
+                <span
+                  className={`px-2 py-1 text-xs rounded-full ${
+                    item.available
+                      ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+                      : "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
+                  }`}
+                >
+                  {item.available ? "Available" : "Unavailable"}
+                </span>
               </div>
               <div className="p-4">
                 <h3 className="font-semibold text-lg">{item.name}</h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">{item.category}</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+                  {item.category}
+                </p>
                 <p className="text-sm mb-4 line-clamp-2">{item.description}</p>
                 <div className="flex justify-between items-center">
                   <p className="font-bold text-lg">${item.price.toFixed(2)}</p>
@@ -213,7 +243,7 @@ const MenuManagement = ({ menuItems, setMenuItems, openAddItemModal }: MenuManag
                     <td className="px-4 py-3">
                       <div className="flex items-center">
                         <div className="h-10 w-10 flex-shrink-0 rounded-md bg-gray-200 dark:bg-gray-700">
-                          <img
+                          <Image
                             src={item.image || "/placeholder.svg"}
                             alt={item.name}
                             className="h-10 w-10 rounded-md object-cover"
@@ -228,7 +258,9 @@ const MenuManagement = ({ menuItems, setMenuItems, openAddItemModal }: MenuManag
                       </div>
                     </td>
                     <td className="px-4 py-3 text-sm">{item.category}</td>
-                    <td className="px-4 py-3 text-sm font-medium">${item.price.toFixed(2)}</td>
+                    <td className="px-4 py-3 text-sm font-medium">
+                      ${item.price.toFixed(2)}
+                    </td>
                     <td className="px-4 py-3 text-sm">
                       <span
                         className={`px-2 py-1 text-xs rounded-full ${
@@ -270,7 +302,10 @@ const MenuManagement = ({ menuItems, setMenuItems, openAddItemModal }: MenuManag
                 ))}
                 {filteredItems.length === 0 && (
                   <tr>
-                    <td colSpan={5} className="px-4 py-8 text-center text-gray-500 dark:text-gray-400">
+                    <td
+                      colSpan={5}
+                      className="px-4 py-8 text-center text-gray-500 dark:text-gray-400"
+                    >
                       No menu items found matching your filters.
                     </td>
                   </tr>
@@ -302,7 +337,12 @@ const MenuManagement = ({ menuItems, setMenuItems, openAddItemModal }: MenuManag
                   viewBox="0 0 24 24"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
                 </svg>
               </button>
             </div>
@@ -313,12 +353,16 @@ const MenuManagement = ({ menuItems, setMenuItems, openAddItemModal }: MenuManag
                   <input
                     type="text"
                     value={selectedItem.name}
-                    onChange={(e) => setSelectedItem({ ...selectedItem, name: e.target.value })}
+                    onChange={(e) =>
+                      setSelectedItem({ ...selectedItem, name: e.target.value })
+                    }
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium mb-1">Description</label>
+                  <label className="block text-sm font-medium mb-1">
+                    Description
+                  </label>
                   <textarea
                     value={selectedItem.description}
                     onChange={(e) =>
@@ -332,7 +376,9 @@ const MenuManagement = ({ menuItems, setMenuItems, openAddItemModal }: MenuManag
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">Category</label>
+                  <label className="block text-sm font-medium mb-1">
+                    Category
+                  </label>
                   <input
                     type="text"
                     value={selectedItem.category}
@@ -346,7 +392,9 @@ const MenuManagement = ({ menuItems, setMenuItems, openAddItemModal }: MenuManag
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">Price</label>
+                  <label className="block text-sm font-medium mb-1">
+                    Price
+                  </label>
                   <input
                     type="number"
                     step="0.01"
@@ -361,7 +409,9 @@ const MenuManagement = ({ menuItems, setMenuItems, openAddItemModal }: MenuManag
                   />
                 </div>
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium mb-1">Image URL</label>
+                  <label className="block text-sm font-medium mb-1">
+                    Image URL
+                  </label>
                   <input
                     type="text"
                     value={selectedItem.image}
@@ -401,8 +451,12 @@ const MenuManagement = ({ menuItems, setMenuItems, openAddItemModal }: MenuManag
                 </button>
                 <button
                   onClick={() => {
-                    setMenuItems(menuItems.map((item) => (item.id === selectedItem.id ? selectedItem : item)))
-                    setSelectedItem(null)
+                    setMenuItems(
+                      menuItems.map((item) =>
+                        item.id === selectedItem.id ? selectedItem : item
+                      )
+                    );
+                    setSelectedItem(null);
                   }}
                   className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
@@ -414,8 +468,7 @@ const MenuManagement = ({ menuItems, setMenuItems, openAddItemModal }: MenuManag
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default MenuManagement
-
+export default MenuManagement;

@@ -1,41 +1,41 @@
-'use client'
+"use client";
 
-import { useRouter, useSearchParams } from 'next/navigation'
-import { useState } from 'react'
-import { createClient } from '@supabase/supabase-js'
+import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
+import { createClient } from "@supabase/supabase-js";
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
-import { Eye, EyeOff, Loader2 } from 'lucide-react'
-import Link from 'next/link'
+);
+import { Eye, EyeOff, Loader2 } from "lucide-react";
+import Link from "next/link";
 
 export default function SignUpForm() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [showPassword, setShowPassword] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  const redirectTo = searchParams.get('redirectTo') || '/dashboard'
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get("redirectTo") || "/dashboard";
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
-    setError(null)
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
 
     // Validation
-    if (!email.includes('@')) {
-      setError('Please enter a valid email address')
-      setLoading(false)
-      return
+    if (!email.includes("@")) {
+      setError("Please enter a valid email address");
+      setLoading(false);
+      return;
     }
 
     if (password.length < 6) {
-      setError('Password must be at least 6 characters')
-      setLoading(false)
-      return
+      setError("Password must be at least 6 characters");
+      setLoading(false);
+      return;
     }
 
     try {
@@ -45,31 +45,38 @@ export default function SignUpForm() {
         options: {
           emailRedirectTo: `${location.origin}/auth/callback`,
           data: {
-            initial_role: 'customer' // Custom user metadata
-          }
-        }
-      })
+            initial_role: "customer", // Custom user metadata
+          },
+        },
+      });
 
-      if (supabaseError) throw supabaseError
+      if (supabaseError) throw supabaseError;
 
       // If email confirmations are disabled, log them in directly
       if (data.user?.identities?.length === 0) {
-        setError('User already exists')
+        setError("User already exists");
       } else if (data.user) {
         // If email confirmations are enabled, show success message
-        router.push(`/login?from=signup&email=${encodeURIComponent(email)}&redirectTo=${encodeURIComponent(redirectTo)}`)
+        router.push(
+          `/login?from=signup&email=${encodeURIComponent(
+            email
+          )}&redirectTo=${encodeURIComponent(redirectTo)}`
+        );
       }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      setError(err.message || 'Signup failed')
+      setError(err.message || "Signup failed");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="max-w-md w-full mx-auto p-6 bg-white rounded-lg shadow-md">
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-800">Create your account</h2>
+        <h2 className="text-2xl font-bold text-gray-800">
+          Create your account
+        </h2>
         <p className="text-gray-600 mt-2">Join us today!</p>
       </div>
 
@@ -81,7 +88,10 @@ export default function SignUpForm() {
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+          <label
+            htmlFor="email"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
             Email address
           </label>
           <input
@@ -96,13 +106,16 @@ export default function SignUpForm() {
         </div>
 
         <div>
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+          <label
+            htmlFor="password"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
             Password
           </label>
           <div className="relative">
             <input
               id="password"
-              type={showPassword ? 'text' : 'password'}
+              type={showPassword ? "text" : "password"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition pr-10"
@@ -132,20 +145,24 @@ export default function SignUpForm() {
               Creating account...
             </>
           ) : (
-            'Sign up'
+            "Sign up"
           )}
         </button>
       </form>
 
       <div className="mt-4 text-center text-sm text-gray-600">
-        Already have an account?{' '}
-        <Link 
-          href={`/login${redirectTo !== '/dashboard' ? `?redirectTo=${encodeURIComponent(redirectTo)}` : ''}`}
+        Already have an account?{" "}
+        <Link
+          href={`/login${
+            redirectTo !== "/dashboard"
+              ? `?redirectTo=${encodeURIComponent(redirectTo)}`
+              : ""
+          }`}
           className="font-medium text-blue-600 hover:text-blue-500"
         >
           Log in
         </Link>
       </div>
     </div>
-  )
+  );
 }

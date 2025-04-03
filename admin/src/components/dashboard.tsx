@@ -2,14 +2,14 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import Sidebar from "./Sidebar";
-import DashboardOverview from "./Dashboard-overview";
-import OrderManagement from "./Order-management";
-import MenuManagement from "./Menu-management";
-import Analytics from "./Analytics";
-import Settings from "./Settings";
-import { ThemeToggle } from "./Theme-toggle";
-import { MenuItemModal } from "./Menu-item-modal";
+import Sidebar from "./sidebar";
+import DashboardOverview from "./dashboard-overview";
+import OrderManagement from "./order-management";
+import MenuManagement from "./menu-management";
+import Analytics from "./analytics";
+import Settings from "./settings";
+import { ThemeToggle } from "./theme-toggle";
+import { MenuItemModal } from "./menu-item-modal";
 
 export type MenuItem = {
   id: string;
@@ -168,7 +168,7 @@ const Dashboard = () => {
         const currentStatusIndex = statuses.indexOf(
           orders[randomOrderIndex].status
         );
-        
+
         if (currentStatusIndex < statuses.length - 1) {
           updateOrderStatus(
             orders[randomOrderIndex].id,
@@ -179,6 +179,7 @@ const Dashboard = () => {
     }, 10000);
 
     return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orders]);
 
   const renderContent = () => {
@@ -187,7 +188,10 @@ const Dashboard = () => {
         return <DashboardOverview orders={orders} />;
       case "orders":
         return (
-          <OrderManagement orders={orders} updateOrderStatus={updateOrderStatus} />
+          <OrderManagement
+            orders={orders}
+            updateOrderStatus={updateOrderStatus}
+          />
         );
       case "menu":
         return (
@@ -231,10 +235,13 @@ const Dashboard = () => {
         transition={{ type: "spring", damping: 20 }}
         className="fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-gray-800 md:hidden"
       >
-        <Sidebar activeTab={activeTab} setActiveTab={(tab) => {
-          setActiveTab(tab);
-          setIsMobileMenuOpen(false);
-        }} />
+        <Sidebar
+          activeTab={activeTab}
+          setActiveTab={(tab) => {
+            setActiveTab(tab);
+            setIsMobileMenuOpen(false);
+          }}
+        />
       </motion.div>
 
       {/* Main content */}
