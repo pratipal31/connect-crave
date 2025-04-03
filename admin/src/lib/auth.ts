@@ -8,6 +8,7 @@ const supabase = createClient(
 
 type StaffRole = 'owner' | 'manager' | 'chef' | 'cashier'
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface StaffProfile {
   role: StaffRole
   restaurant_id: string

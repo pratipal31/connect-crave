@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FoodStallCard } from "@/components/food-stall-card";
+export const dynamic = "force-dynamic";
 
 async function fetchRestaurants() {
   try {

@@ -1,6 +1,7 @@
 import { RestaurantMenu } from "@/components/restaurant/restaurant-menu";
 import { RestaurantHeader } from "@/components/restaurant/restaurant-header";
 import { notFound } from "next/navigation";
+export const dynamic = 'force-dynamic';
 
 async function getRestaurant(id: string) {
   try {
@@ -47,15 +48,16 @@ async function getMenuItems(restaurantId: string) {
 export default async function RestaurantPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const restaurant = await getRestaurant(params.id);
+  const { id } = await params;
+  const restaurant = await getRestaurant(id);
 
   if (!restaurant) {
     notFound();
   }
 
-  const menuItems = await getMenuItems(params.id);
+  const menuItems = await getMenuItems(id);
 
   return (
     <div className="min-h-screen bg-gray-50">

@@ -1,7 +1,8 @@
-import type { Config } from "tailwindcss"
+import type { Config } from "tailwindcss";
+import tailwindcssAnimate from "tailwindcss-animate";
 
 const config: Config = {
-  darkMode: ["class"],
+  darkMode: "class", // ✅ Fixed here
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -44,26 +45,25 @@ const config: Config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // Custom colors based on the requested palette
         blue: {
           100: "#DBEAFE",
           500: "#3B82F6",
           600: "#2563EB",
           700: "#1D4ED8",
-          800: "#1E40AF", // Primary color
+          800: "#1E40AF",
           900: "#1E3A8A",
         },
         teal: {
           100: "#CCFBF1",
           500: "#14B8A6",
-          600: "#0D9488", // Secondary color
+          600: "#0D9488",
           700: "#0F766E",
           800: "#115E59",
           900: "#134E4A",
         },
         orange: {
           100: "#FFEDD5",
-          500: "#F97316", // Accent color
+          500: "#F97316",
           600: "#EA580C",
           700: "#C2410C",
           800: "#9A3412",
@@ -71,14 +71,14 @@ const config: Config = {
         },
         gray: {
           50: "#F9FAFB",
-          100: "#F3F4F6", // Background color
+          100: "#F3F4F6",
           200: "#E5E7EB",
           300: "#D1D5DB",
           400: "#9CA3AF",
           500: "#6B7280",
           600: "#4B5563",
-          700: "#374151", // Text color
-          750: "#2D3748", // Custom dark hover color
+          700: "#374151",
+          750: "#2D3748",
           800: "#1F2937",
           900: "#111827",
         },
@@ -104,8 +104,7 @@ const config: Config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
-}
+  plugins: [tailwindcssAnimate], // ✅ Fixed here
+};
 
-export default config
-
+export default config;

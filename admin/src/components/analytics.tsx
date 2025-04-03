@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Order, MenuItem } from "../components/Dashboard";
+import { Order, MenuItem } from "../components/dashboard";
+import Image from "next/image";
 
 type AnalyticsProps = {
   orders: Order[];
@@ -14,7 +15,10 @@ const Analytics = ({ orders, menuItems }: AnalyticsProps) => {
 
   // Calculate metrics
   const totalOrders = orders.length;
-  const totalRevenue = orders.reduce((sum, order) => sum + order.totalAmount, 0);
+  const totalRevenue = orders.reduce(
+    (sum, order) => sum + order.totalAmount,
+    0
+  );
   const averageOrderValue = totalRevenue / totalOrders || 0;
 
   // Calculate most popular items
@@ -159,7 +163,9 @@ const Analytics = ({ orders, menuItems }: AnalyticsProps) => {
           transition={{ duration: 0.3, delay: 0.5 }}
           className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 border border-gray-200 dark:border-gray-700"
         >
-          <h2 className="text-lg font-semibold mb-4">Order Status Distribution</h2>
+          <h2 className="text-lg font-semibold mb-4">
+            Order Status Distribution
+          </h2>
           <div className="h-64 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
             <p className="text-gray-500 dark:text-gray-400">
               Status distribution chart would go here
@@ -198,13 +204,18 @@ const Analytics = ({ orders, menuItems }: AnalyticsProps) => {
             </thead>
             <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
               {popularItems.map(({ item, count, revenue }) => (
-                <tr key={item.id} className="hover:bg-gray-50 dark:hover:bg-gray-750">
+                <tr
+                  key={item.id}
+                  className="hover:bg-gray-50 dark:hover:bg-gray-750"
+                >
                   <td className="px-4 py-3">
                     <div className="flex items-center">
                       <div className="h-10 w-10 flex-shrink-0 rounded-md bg-gray-200 dark:bg-gray-700">
-                        <img
+                        <Image
                           src={item.image || "/placeholder.svg"}
                           alt={item.name}
+                          width={40}
+                          height={40}
                           className="h-10 w-10 rounded-md object-cover"
                         />
                       </div>
@@ -243,7 +254,9 @@ const Analytics = ({ orders, menuItems }: AnalyticsProps) => {
           transition={{ duration: 0.3, delay: 0.7 }}
           className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 border border-gray-200 dark:border-gray-700"
         >
-          <h2 className="text-lg font-semibold mb-4">Order Type Distribution</h2>
+          <h2 className="text-lg font-semibold mb-4">
+            Order Type Distribution
+          </h2>
           <div className="h-64 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
             <p className="text-gray-500 dark:text-gray-400">
               Order type distribution chart would go here

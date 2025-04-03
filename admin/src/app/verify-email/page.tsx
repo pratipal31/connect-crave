@@ -25,7 +25,7 @@ export default function VerifyEmail() {
     <div className="max-w-md mx-auto p-6 text-center">
       <h1 className="text-2xl font-bold mb-4">Check your email</h1>
       <p className="mb-6">
-        We've sent a confirmation link to your email address.
+        We&apos;ve sent a confirmation link to your email address.
         Please click the link to verify your account.
       </p>
       <button
